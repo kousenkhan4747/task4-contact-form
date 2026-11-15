@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Contact Us</title>
+  <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(135deg, #e0e7ff, #cffafe);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  background: #fff;
+  width: 100%;
+  max-width: 480px;
+  padding: 30px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
+}
+h1 { color: #4f46e5; text-align: center; margin-bottom: 6px; }
+.sub { text-align: center; color: #64748b; margin-bottom: 22px; font-size: .95rem; }
+
+label { display: block; font-weight: 600; margin: 14px 0 6px; color: #1e293b; }
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+input:focus, textarea:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, .2);
+}
+.invalid { border-color: #dc2626 !important; }
+.error { display: block; color: #dc2626; font-size: .85rem; min-height: 1.1em; margin-top: 4px; }
+
+button {
+  width: 100%;
+  margin-top: 18px;
+  padding: 14px;
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+}
+button:hover { background: #3730a3; }
+button:active { transform: scale(.98); }
+
+.success {
+  margin-top: 18px;
+  padding: 14px;
+  background: #dcfce7;
+  border: 1px solid #16a34a;
+  color: #166534;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .container { padding: 20px; }
+}
+
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) body{background:linear-gradient(135deg,#0f172a,#1e1b4b)}
+  :root:not([data-theme="light"]) .container{background:#1e293b;border-color:#334155}
+  :root:not([data-theme="light"]) h1{color:#a5b4fc}
+  :root:not([data-theme="light"]) .sub{color:#94a3b8}
+  :root:not([data-theme="light"]) label{color:#e2e8f0}
+  :root:not([data-theme="light"]) input,:root:not([data-theme="light"]) textarea{background:#0f172a;color:#e2e8f0;border-color:#475569}
+  :root:not([data-theme="light"]) .success{background:#14532d;color:#bbf7d0;border-color:#16a34a}
+}
+:root[data-theme="dark"] body{background:linear-gradient(135deg,#0f172a,#1e1b4b)}
+:root[data-theme="dark"] .container{background:#1e293b;border-color:#334155}
+:root[data-theme="dark"] h1{color:#a5b4fc}
+:root[data-theme="dark"] .sub{color:#94a3b8}
+:root[data-theme="dark"] label{color:#e2e8f0}
+:root[data-theme="dark"] input,:root[data-theme="dark"] textarea{background:#0f172a;color:#e2e8f0;border-color:#475569}
+:root[data-theme="dark"] .success{background:#14532d;color:#bbf7d0;border-color:#16a34a}
+</style>
+</head>
+<body>
+  <main class="container">
+    <h1>📩 Contact Us</h1>
+    <p class="sub">Fill in the form below and we will get back to you soon.</p>
+
+    <form id="contactForm" novalidate>
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Enter your name">
+      <span class="error" id="nameError"></span>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email">
+      <span class="error" id="emailError"></span>
+
+      <label for="message">Message</label>
+      <textarea id="message" rows="5" placeholder="Write your message"></textarea>
+      <span class="error" id="messageError"></span>
+
+      <button type="submit">Send Message</button>
+    </form>
+
+    <p id="successMsg" class="success" hidden>✅ Thank you! Your message has been sent successfully.</p>
+  </main>
+
+  <script>
+const form = document.getElementById("contactForm");
+const successMsg = document.getElementById("successMsg");
+
+function setError(fieldId, message) {
+  document.getElementById(fieldId + "Error").textContent = message;
+  document.getElementById(fieldId).classList.toggle("invalid", message !== "");
+}
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();               // no backend needed
+  successMsg.hidden = true;
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const message = document.getElementById("message").value.trim();
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let valid = true;
+
+  if (name === "") { setError("name", "Please enter your name."); valid = false; }
+  else setError("name", "");
+
+  if (email === "") { setError("email", "Please enter your email."); valid = false; }
+  else if (!emailPattern.test(email)) { setError("email", "Please enter a valid email address."); valid = false; }
+  else setError("email", "");
+
+  if (message === "") { setError("message", "Please write a message."); valid = false; }
+  else setError("message", "");
+
+  if (valid) {
+    successMsg.hidden = false;
+    form.reset();
+  }
+});
+</script>
+</body>
+</html>
